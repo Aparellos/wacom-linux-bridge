@@ -40,7 +40,7 @@ class WacomBridgeHandler(http.server.BaseHTTPRequestHandler):
             motivo = qs.get("motivo", [""])[0]
 
             # 1. Limpar imagem antiga se existir
-            image_path = os.path.join(BRIDGE_DIR, 'sig.png')
+            image_path = '/tmp/wacom_sig.png'
             if os.path.exists(image_path):
                 try:
                     os.remove(image_path)
@@ -60,7 +60,8 @@ class WacomBridgeHandler(http.server.BaseHTTPRequestHandler):
                     f"-Djava.library.path={os.path.join(sdk_base, 'x86_64')}",
                     "WacomCapture",
                     nombre,
-                    motivo
+                    motivo,
+                    image_path
                 ]
                 
                 # Executa de forma síncrona, bloqueando até a dialog fechar

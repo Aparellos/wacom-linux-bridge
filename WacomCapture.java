@@ -26,10 +26,14 @@ public class WacomCapture
   private Future<KeyPair> keyPair;
   private String signerName = "";
   private String signReason = "";
+  private String imagePath = "sig.png";
 
-  public WacomCapture(String signerName, String signReason) {
+  public WacomCapture(String signerName, String signReason, String imagePath) {
       this.signerName = signerName;
       this.signReason = signReason;
+      if (imagePath != null && !imagePath.isEmpty()) {
+          this.imagePath = imagePath;
+      }
   }
 
   static class SignatureDialog extends JDialog implements ITabletHandler
@@ -815,11 +819,11 @@ public class WacomCapture
         Color[] btnsDownColors = new Color[] { btnsUpColors[0].darker(), btnsUpColors[1].darker(), btnsUpColors[2].darker() };
         byte[]  bitmapData;
 
-        BufferedImage btnsUp  = createScreenImage(btnsUpColors, Color.BLACK, btnOrder);
+        BufferedImage btnsUp  = createScreenImage(btnsUpColors, Color.BLACK, null);
         bitmapData = ProtocolHelper.flatten(btnsUp, btnsUp.getWidth(), btnsUp.getHeight(), encodingMode);
         checkSigModeImage(false, bitmapData);
 
-        BufferedImage btnsPushed = createScreenImage(btnsDownColors, Color.WHITE, btnOrder);
+        BufferedImage btnsPushed = createScreenImage(btnsDownColors, Color.WHITE, null);
         bitmapData = ProtocolHelper.flatten(btnsPushed, btnsPushed.getWidth(), btnsPushed.getHeight(), encodingMode);
         checkSigModeImage(true, bitmapData);
 
@@ -901,8 +905,8 @@ public class WacomCapture
           {
             // Gera a imagem final nas dimensões padrão do canvas do FS (450 x 200)
             BufferedImage signatureImage = createImage(penData, signatureDialog.getCapability(), 450, 200);
-            ImageIO.write(signatureImage, "png", new File("sig.png"));
-            System.out.println("Assinatura salva com sucesso em sig.png");
+            ImageIO.write(signatureImage, "png", new File(this.imagePath));
+            System.out.println("Assinatura salva com sucesso em " + this.imagePath);
           }
         }
         else
@@ -930,7 +934,8 @@ public class WacomCapture
   {
     String name = args.length > 0 ? args[0] : "";
     String reason = args.length > 1 ? args[1] : "";
-    WacomCapture capture = new WacomCapture(name, reason);
+    String imgPath = args.length > 2 ? args[2] : "sig.png";
+    WacomCapture capture = new WacomCapture(name, reason, imgPath);
     capture.run();
   }
 }

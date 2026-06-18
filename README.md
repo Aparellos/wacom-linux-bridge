@@ -32,6 +32,7 @@ Criámos um script de instalação interativo que automatiza todo o processo e a
 * **Comando Global:** Regista um atalho universal no sistema, permitindo-lhe iniciar o programa mais tarde através do comando `wacom-bridge` a partir de qualquer terminal.
 * **Menu de Aplicações:** Adiciona um novo atalho ao menu de aplicações geral do seu sistema (a ponte corre invisivelmente no fundo).
 * **Arranque Automático:** O script pergunta-lhe de forma interativa se pretende adicionar o atalho à lista de arranque de sessão automática do seu utilizador (altamente recomendado).
+* **Permissões USB (udev):** Configura de forma automática as regras de acesso USB para tabletas Wacom STU em `/etc/udev/rules.d/51-wacom-stu.rules` e recarrega os serviços do udev (via `udevadm`), evitando que a aplicação falhe por falta de permissão de escrita no barramento USB.
 
 ## Execução Sem Instalar
 

@@ -109,9 +109,13 @@ class WacomBridgeHandler(http.server.BaseHTTPRequestHandler):
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json')
                 self.end_headers()
-                response = {"status": "cancelled"}
+                response = {
+                    "status": "cancelled",
+                    "java_stdout": result.stdout,
+                    "java_stderr": result.stderr
+                }
                 self.wfile.write(json.dumps(response).encode('utf-8'))
-                print("Captura cancelada pelo utilizador.")
+                print("Captura cancelada pelo usuario ou erro na criacao da imagem.")
                 
         else:
             self.send_response(404)

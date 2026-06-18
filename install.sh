@@ -41,9 +41,20 @@ EOF
 
 chmod 644 "$DESKTOP_ENTRY_GLOBAL"
 
+# Configurar regras udev para a tableta Wacom
+echo "-> A configurar regras udev para a Wacom STU em /etc/udev/rules.d/51-wacom-stu.rules"
+cat <<EOF > "/etc/udev/rules.d/51-wacom-stu.rules"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="056a", ATTRS{idProduct}=="00a[0-9|a-f]", MODE="0666", GROUP="users"
+EOF
+
+echo "-> A recarregar regras do udev"
+udevadm control --reload-rules
+udevadm trigger
+
 echo ""
 echo "Instalação concluída com sucesso!"
 echo "Pode iniciar a ponte a qualquer momento executando 'wacom-bridge' no terminal ou procurando no menu de aplicações."
+echo "IMPORTANTE: Se a tableta Wacom estiver ligada por USB, desligue e volte a ligar o cabo para aplicar as novas permissões."
 echo ""
 
 # Handle Autostart

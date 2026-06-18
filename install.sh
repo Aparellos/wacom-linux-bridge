@@ -44,7 +44,7 @@ chmod 644 "$DESKTOP_ENTRY_GLOBAL"
 # Configurar regras udev para a tableta Wacom
 echo "-> A configurar regras udev para a Wacom STU em /etc/udev/rules.d/51-wacom-stu.rules"
 cat <<EOF > "/etc/udev/rules.d/51-wacom-stu.rules"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="056a", ATTRS{idProduct}=="00a[0-9|a-f]", MODE="0666", GROUP="users"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="056a", MODE="0666"
 EOF
 
 echo "-> A recarregar regras do udev"
